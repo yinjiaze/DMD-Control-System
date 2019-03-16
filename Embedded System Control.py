@@ -1,4 +1,5 @@
-import Adafruit_BBIO.GPIO as GPIO
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
 
 def DMD_Start():
     print("Starting DMD")
@@ -20,7 +21,7 @@ GPIO.setup("P9_11", GPIO.IN)
 GPIO.setup("P9_13", GPIO.IN)
 GPIO.setup("P9_15", GPIO.IN)
 
-GPIO.setup("P9_12", GPIO.IN)
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 Default_mode = 0
 Last_mode = 0
@@ -30,7 +31,7 @@ while True:
         DMD_Update(Default_mode)
         Default_mode = 1
     else:
-        GPIO.wait_for_edge("P9_12", GPIO.RISING)
+        GPIO.wait_for_edge(23, GPIO.RISING)
         mode_number = Calculate_Mode(GPIO.input("P9_11"),
                                     GPIO.input("P9_13"),
                                     GPIO.input("P9_15"))
