@@ -227,8 +227,10 @@ def generate_encoded(matrix):
 class dmd():
     def __init__(self):
         self.dev = usb.core.find(idVendor=0x0451 ,idProduct=0x4421)
-
+        if self.dev.is_kernel_driver_active(0):
+            self.dev.detach_kernel_driver(0)
         self.dev.set_configuration()
+        
 
         self.ans=[]
 
